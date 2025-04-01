@@ -51,92 +51,83 @@ public class Instruction {
 
     //Use known opcode to return Instruction Type. Hex string used for syscall
     private String convertInstructionType(String hexString){
+        String newInstructionType = "Error";
         //Syscall is always the same, but the opcode is the same as R format
         if(hexString.equals("0000000c")){
-            return SYSCALL;
+            newInstructionType = SYSCALL;
         }
         //000000 - R Format instructions
         else if(opcode.equals("00")){
-            return RTYPE;
+            newInstructionType = RTYPE;
         }
         //Only one j type instruction, and opcode will be 02
         else if(opcode.equals("02")){
-            return JTYPE;
+            newInstructionType = JTYPE;
         }
         else{
-            return ITYPE;
+            newInstructionType = ITYPE;
         }
+        return newInstructionType;
     }
 
     //Use known opcode, funct and instructionType to convert mnemonic
     private String convertMnemonic(){
+        String newMnemonic = "Error";
         //R type and syscall instructions need to use funct
         if(instructionType.equals(RTYPE) || instructionType.equals(SYSCALL)){
-            //add - 100000
-            if(funct.equals("20")){
-                return "add";
-            }
-            //and - 100100
-            else if(funct.equals("24")){
-                return "add";
-            }
-            //or - 100101
-            else if(funct.equals("25")){
-                return "or";
-            }
-            //slt - 101010
-            else if(funct.equals("2a")){
-                return "slt";
-            }
-            //sub - 100010
-            else if(funct.equals("22")){
-                return "sub";
-            }
-            //syscall - 001100
-            else if(funct.equals("0c")){
-                return "syscall";
+            switch(funct){
+                case "20": //add - 100000
+                    newMnemonic = "add";
+                    break;
+                case "24": //and - 100100
+                    newMnemonic = "and";
+                    break;
+                case "25": //or - 100101
+                    newMnemonic = "or";
+                    break;
+                case "2a": //slt - 101010
+                    newMnemonic = "slt";
+                    break;
+                case "22"://sub - 100010
+                    newMnemonic = "sub";
+                    break;
+                case "0c": //syscall - 001100
+                    newMnemonic = "syscall";
+                    break;
             }
         }
         //everything else uses opcode
         else{
-            //addiu - 001001
-            if(opcode.equals("09")){
-                return "addiu";
-            }
-            //andi - 001100
-            else if(opcode.equals("0c")){
-                return "andi";
-            }
-            //beq - 000100
-            else if(opcode.equals("04")){
-                return "beq";
-            }
-            //bne - 000101
-            else if(opcode.equals("05")){
-                return "bne";
-            }
-            //j - 000010
-            else if(opcode.equals("02")){
-                return "j";
-            }
-            //lui - 001111
-            else if(opcode.equals("0f")){
-                return "lui";
-            }
-            //lw - 100011
-            else if(opcode.equals("23")){
-                return "lw";
-            }
-            //ori - 001101
-            else if(opcode.equals("0d")){
-                return "ori";
-            }
-            //sw - 101011
-            else if(opcode.equals("2b")){
-                return "sw";
+            switch(opcode){
+                case "09": //addiu - 001001
+                    newMnemonic = "addiu";
+                    break;
+                case "0c": //andi - 001100
+                    newMnemonic = "andi";
+                    break;
+                case "04": //beq - 000100
+                    newMnemonic = "beq";
+                    break;
+                case "05": //bne - 000101
+                    newMnemonic = "bne";
+                    break;
+                case "02": //j - 000010
+                    newMnemonic = "j";
+                    break;
+                case "0f": //lui - 001111
+                    newMnemonic = "lui";
+                    break;
+                case "23": //lw - 100011
+                    newMnemonic = "lw";
+                    break;
+                case "0d": //ori - 001101
+                    newMnemonic = "ori";
+                    break;
+                case "2b": //sw - 101011
+                    newMnemonic = "sw";
+                    break;
             }
         }
-        //No mnemonic was found
-        return "Error";
+        return newMnemonic;
     }
 }
