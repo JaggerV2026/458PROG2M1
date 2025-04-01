@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args)
     {
-        System.out.println("Hello World");
+        Instruction test = new Instruction("26fb003e");
     }
 }
