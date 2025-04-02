@@ -37,6 +37,7 @@ public class Instruction {
                 mnemonic = convertMnemonic();
                 rs = convertRs(hexString);
                 rt = convertRt(hexString);
+                immediate = convertImmediate(hexString);
                 break;
 
             case JTYPE:
@@ -47,7 +48,7 @@ public class Instruction {
                 mnemonic = convertMnemonic();
                 break;
         }
-        System.out.println(rs);
+        System.out.println(immediate);
     }
 
     //Return the opcode associated with a given hex string.
@@ -172,5 +173,10 @@ public class Instruction {
         //Need last six bits, so & 111111
         int decimalFunct = Integer.parseInt(hexString, 16) & 63;
         return String.format("%02x", decimalFunct);
+    }
+
+    //bits 17-32 are used to determine the immediate
+    private String convertImmediate(String hexString){
+        return hexString.substring(4);
     }
 }
