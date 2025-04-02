@@ -20,6 +20,33 @@ public class Instruction {
         disassemble(hexString);
     }
 
+    public String toString(){
+        String toPrint = "Error";
+        switch(instructionType){
+            case RTYPE:
+                //mnemonic {opcode: XX, rs: XX, rt: XX, rd: XX, shmt: XX, funct: XX}
+                toPrint = String.format("%s {opcode: %s, rs: %s, rt: %s, rd: %s, shmt: %s, funct: %s}",
+                        mnemonic, opcode, rs, rt, rd, shmt, funct);
+                break;
+            case ITYPE:
+                //mnemonic {opcode: XX, rs(base): XX, rt: XX, immediate(offset): XXXX}
+                toPrint = String.format("%s {opcode: %s, rs(base): %s, rt: %s, immediate(offset): %s}",
+                        mnemonic, opcode, rs, rt, immediate);
+                break;
+            case JTYPE:
+                //mnemonic {opcode: XX, index: XXXXXXX}
+                toPrint = String.format("%s {opcode: %s, index: %s}",
+                        mnemonic, opcode, index);
+                break;
+            case SYSCALL:
+                //mnemonic {opcode: XX, code: 000000, funct: XX}
+                toPrint = String.format("%s {opcode: %s, code: 000000, funct: %s}",
+                        mnemonic, opcode, funct);
+                break;
+        }
+        return toPrint;
+    }
+
     private void disassemble(String hexString){
         opcode = convertOpcode(hexString);
         instructionType = convertInstructionType(hexString);
@@ -42,13 +69,14 @@ public class Instruction {
 
             case JTYPE:
                 mnemonic = convertMnemonic();
+                index = convertIndex(hexString);
                 break;
 
             case SYSCALL:
                 mnemonic = convertMnemonic();
+                funct = convertFunct(hexString);
                 break;
         }
-        System.out.println(immediate);
     }
 
     //Return the opcode associated with a given hex string.
