@@ -179,4 +179,10 @@ public class Instruction {
     private String convertImmediate(String hexString){
         return hexString.substring(4);
     }
+
+    //index from j is bits 7-32
+    private String convertIndex(String hexString){
+        int decimalIndex = Integer.parseInt(hexString, 16) & 67108863;
+        return String.format("%07x", decimalIndex);
+    }
 }
