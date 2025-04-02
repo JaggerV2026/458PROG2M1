@@ -28,6 +28,9 @@ public class Instruction {
                 rs = convertRs(hexString);
                 rt = convertRt(hexString);
                 rd = convertRd(hexString);
+                shmt = convertShmt();
+                funct = convertFunct(hexString);
+                mnemonic = convertMnemonic();
                 break;
 
             case ITYPE:
@@ -157,5 +160,17 @@ public class Instruction {
         int decimalRd = Integer.parseInt(hexString, 16) >> 11;
         decimalRd = decimalRd & 31;
         return String.format("%02x", decimalRd);
+    }
+
+    //I know shmt can be something, but it's always 00000 in our usage.
+    private String convertShmt(){
+        return "00";
+    }
+
+    //Bits 27-32 are used to find Funct.
+    private String convertFunct(String hexString){
+        //Need last six bits, so & 111111
+        int decimalFunct = Integer.parseInt(hexString, 16) & 63;
+        return String.format("%02x", decimalFunct);
     }
 }
