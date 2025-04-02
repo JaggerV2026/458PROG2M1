@@ -25,10 +25,15 @@ public class Instruction {
         instructionType = convertInstructionType(hexString);
         switch(instructionType){
             case RTYPE:
+                rs = convertRs(hexString);
+                rt = convertRt(hexString);
+                rd = convertRd(hexString);
                 break;
 
             case ITYPE:
                 mnemonic = convertMnemonic();
+                rs = convertRs(hexString);
+                rt = convertRt(hexString);
                 break;
 
             case JTYPE:
@@ -39,7 +44,7 @@ public class Instruction {
                 mnemonic = convertMnemonic();
                 break;
         }
-        System.out.println(mnemonic);
+        System.out.println(rs);
     }
 
     //Return the opcode associated with a given hex string.
@@ -129,5 +134,28 @@ public class Instruction {
             }
         }
         return newMnemonic;
+    }
+
+    //Use bits 7-11 to get rs
+    private String convertRs(String hexString){
+        int decimalRs = Integer.parseInt(hexString, 16) >> 21;
+        //Need to keep last 5 bits
+        decimalRs = decimalRs & 31;
+        return String.format("%02x", decimalRs);
+    }
+
+    //Use bits 12-16 to get rt
+    private String convertRt(String hexString){
+        int decimalRt = Integer.parseInt(hexString, 16) >> 16;
+        //Keep last 5 bits
+        decimalRt = decimalRt & 31;
+        return String.format("%02x", decimalRt);
+    }
+
+    //Use bits 17-21 to get rd
+    private String convertRd(String hexString){
+        int decimalRd = Integer.parseInt(hexString, 16) >> 11;
+        decimalRd = decimalRd & 31;
+        return String.format("%02x", decimalRd);
     }
 }
