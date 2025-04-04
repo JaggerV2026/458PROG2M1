@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args)
     {
-        Instruction test = new Instruction("26fb003e");
-        System.out.println(test.toString());
+        Test test = new Test();
+        test.comparisonTest();
     }
 }

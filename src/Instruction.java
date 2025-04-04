@@ -73,8 +73,8 @@ public class Instruction {
                 break;
 
             case SYSCALL:
-                mnemonic = convertMnemonic();
                 funct = convertFunct(hexString);
+                mnemonic = convertMnemonic();
                 break;
         }
     }
@@ -82,7 +82,7 @@ public class Instruction {
     //Return the opcode associated with a given hex string.
     //Opcode is bits 1 to 6
     private String convertOpcode(String hexString){
-        int decimalOpcode = Integer.parseInt(hexString, 16) >> 26;
+        long decimalOpcode = Long.parseLong(hexString, 16) >> 26;
         return String.format("%02x", decimalOpcode);
     }
 
@@ -170,7 +170,7 @@ public class Instruction {
 
     //Use bits 7-11 to get rs
     private String convertRs(String hexString){
-        int decimalRs = Integer.parseInt(hexString, 16) >> 21;
+        long decimalRs = Long.parseLong(hexString, 16) >> 21;
         //Need to keep last 5 bits
         decimalRs = decimalRs & 31;
         return String.format("%02x", decimalRs);
@@ -178,7 +178,7 @@ public class Instruction {
 
     //Use bits 12-16 to get rt
     private String convertRt(String hexString){
-        int decimalRt = Integer.parseInt(hexString, 16) >> 16;
+        long decimalRt = Long.parseLong(hexString, 16) >> 16;
         //Keep last 5 bits
         decimalRt = decimalRt & 31;
         return String.format("%02x", decimalRt);
@@ -186,7 +186,7 @@ public class Instruction {
 
     //Use bits 17-21 to get rd
     private String convertRd(String hexString){
-        int decimalRd = Integer.parseInt(hexString, 16) >> 11;
+        long decimalRd = Long.parseLong(hexString, 16) >> 11;
         decimalRd = decimalRd & 31;
         return String.format("%02x", decimalRd);
     }
@@ -199,7 +199,7 @@ public class Instruction {
     //Bits 27-32 are used to find Funct.
     private String convertFunct(String hexString){
         //Need last six bits, so & 111111
-        int decimalFunct = Integer.parseInt(hexString, 16) & 63;
+        long decimalFunct = Long.parseLong(hexString, 16) & 63;
         return String.format("%02x", decimalFunct);
     }
 
@@ -210,7 +210,7 @@ public class Instruction {
 
     //index from j is bits 7-32
     private String convertIndex(String hexString){
-        int decimalIndex = Integer.parseInt(hexString, 16) & 67108863;
+        long decimalIndex = Long.parseLong(hexString, 16) & 67108863;
         return String.format("%07x", decimalIndex);
     }
 }
